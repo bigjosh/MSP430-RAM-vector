@@ -19,7 +19,7 @@ __attribute__((section(".ram_int54"))) volatile void *ram_vector_TIMER1_A0;
 __attribute__((section(".ram_int55"))) volatile void *ram_vector_TIMER0_A1;
 __attribute__((section(".ram_int56"))) volatile void *ram_vector_TIMER0_A0;
 __attribute__((section(".ram_int57"))) volatile void *ram_vector_UNMI;
-__attribute__((section(".ram_int48"))) volatile void *ram_vector_SYSNMI;
+__attribute__((section(".ram_int58"))) volatile void *ram_vector_SYSNMI;
 //__attribute__((section(".ram_int59"))) void *ram_vector_RESET;          // This one is dumb because the SYSRIVECT bit gets cleared on reset so this can never happen.
 
 __interrupt void ISR_RED_LED(void);         // Prototype so we can reference it in ISR_GREEN_LED
