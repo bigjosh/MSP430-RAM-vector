@@ -1,6 +1,25 @@
 #include <msp430.h>
 
-__attribute__((section(".ram_int47"))) void *ram_port1_vector;      // You can not staticly initialize here, you must assign at run time.
+// All the RAM-based interrupt vectors.
+// Note these are void pointers rather than function pointers because if you make them
+// function pointers then the compiler will try to make trampolines to them and fail.
+// There does not seem to be a way to specify that a pointer is "small" with the TI compiler.
+
+__attribute__((section(".ram_int45"))) void *ram_vector_LCD_E;
+__attribute__((section(".ram_int46"))) void *ram_vector_PORT2;
+__attribute__((section(".ram_int47"))) void *ram_vector_PORT1;
+__attribute__((section(".ram_int48"))) void *ram_vector_ADC;
+__attribute__((section(".ram_int49"))) void *ram_vector_USCI_B0;
+__attribute__((section(".ram_int50"))) void *ram_vector_USCI_A0;
+__attribute__((section(".ram_int41"))) void *ram_vector_WDT;
+__attribute__((section(".ram_int42"))) void *ram_vector_RTC;
+__attribute__((section(".ram_int43"))) void *ram_vector_TIMER1_A1;
+__attribute__((section(".ram_int44"))) void *ram_vector_TIMER1_A0;
+__attribute__((section(".ram_int45"))) void *ram_vector_TIMER0_A1;
+__attribute__((section(".ram_int46"))) void *ram_vector_TIMER0_A0;
+__attribute__((section(".ram_int47"))) void *ram_vector_UNMI;
+__attribute__((section(".ram_int48"))) void *ram_vector_SYSNMI;
+__attribute__((section(".ram_int49"))) void *ram_vector_RESET;          // This one is dumb because the SYSRIVECT bit gets clear on reset so this can never happen.
 
 __interrupt void ISR_RED_LED(void);         // Prototype so we can reference it in ISR_GREEN_LED
 
@@ -12,7 +31,7 @@ __interrupt void ISR_GREEN_LED(void)
 
     P1IFG &= ~BIT2;                     // Clear P1.2 IFG
 
-    ram_port1_vector = &ISR_RED_LED;
+    ram_vector_PORT1 = &ISR_RED_LED;    // Switch to the other ISR, which will get called on the next interrupt. Cool, right?
 
     __bic_SR_register_on_exit(LPM3_bits);   // Exit LPM3
 }
@@ -25,7 +44,7 @@ __interrupt void ISR_RED_LED(void)
 
     P1IFG &= ~BIT2;                     // Clear P1.2 IFG
 
-    ram_port1_vector = &ISR_GREEN_LED;
+    ram_vector_PORT1 = &ISR_GREEN_LED;  // Switch to the other ISR, which will get called on the next interrupt. Cool, right?
 
 
     __bic_SR_register_on_exit(LPM3_bits);   // Exit LPM3
@@ -46,12 +65,12 @@ __attribute__((section(".ram_int47"))) void *ram_port1_vector;      // You can n
 int main(void)
 {
     // Assign the GREN LED ISR to the PORT1 vector in the RAM vector table
-    ram_port1_vector = &ISR_GREEN_LED;
+    ram_vector_PORT1 = &ISR_GREEN_LED;
 
     // Switch to RAM-based vector table as per SLAU445I 1.15.1
     SYSCTL |= SYSRIVECT;
 
-    // OK, we would now expect any interrupts on PORT1 to go to the GREEN LED ISR
+    // OK, any interrupts on PORT1 now to go to the GREEN LED ISR
 
     WDTCTL = WDTPW | WDTHOLD;               // Stop watchdog timer
 
