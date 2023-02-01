@@ -35,6 +35,6 @@ extern void * volatile ram_vector_SYSNMI;
 
 // Activate the RAM ISR table (replaces the default FRAM table)
 // Make sure you have assigned functions to any of the above vectors that might get called.
-#define ACTIVATE_RAM_ISRS() do {SYSCTL |= SYSRIVECT} while (0)
+#define ACTIVATE_RAM_ISRS() do {SYSCTL |= SYSRIVECT;} while (0)
 
 #endif /* RAM_ISRS_H_ */
