@@ -9,21 +9,27 @@ CMD_SRCS += \
 ../lnk_msp430fr4133.cmd 
 
 C_SRCS += \
-../msp430fr413x_P1_03.c 
+../msp430fr413x_P1_03.c \
+../ram_isrs.c 
 
 C_DEPS += \
-./msp430fr413x_P1_03.d 
+./msp430fr413x_P1_03.d \
+./ram_isrs.d 
 
 OBJS += \
-./msp430fr413x_P1_03.obj 
+./msp430fr413x_P1_03.obj \
+./ram_isrs.obj 
 
 OBJS__QUOTED += \
-"msp430fr413x_P1_03.obj" 
+"msp430fr413x_P1_03.obj" \
+"ram_isrs.obj" 
 
 C_DEPS__QUOTED += \
-"msp430fr413x_P1_03.d" 
+"msp430fr413x_P1_03.d" \
+"ram_isrs.d" 
 
 C_SRCS__QUOTED += \
-"../msp430fr413x_P1_03.c" 
+"../msp430fr413x_P1_03.c" \
+"../ram_isrs.c" 
 
 

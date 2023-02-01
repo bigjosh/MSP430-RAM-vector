@@ -1,3 +1,4 @@
 "./msp430fr413x_P1_03.obj"
+"./ram_isrs.obj"
 "../lnk_msp430fr4133.cmd"
 -llibc.a
